@@ -24,7 +24,7 @@ export default class App extends Component {
   componentDidMount() {
     axios.get('https://jsonplaceholder.typicode.com/users')
       .then(res => this.setState({ userList: res.data }))
-      .catch(err => swal("Opps!", "Error Occur", "error"))
+      .catch(err => swal("Opps!", err.message, "error"))
   }
 
   UserList = () => {
