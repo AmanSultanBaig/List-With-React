@@ -6,7 +6,7 @@ const List = props =>
   (
     <tr>
       <td>{props.value.name}</td>
-      <td>{props.value.email}</td>
+      <td> <a href={'mailto:'+props.value.email} target="blank"> {props.value.email} </a> </td>
       <td>{props.value.phone}</td>
     </tr>
   )
