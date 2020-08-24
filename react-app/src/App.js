@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import axios from 'axios'
+import { Link } from 'react-router-dom';
 import swal from 'sweetalert';
 
 const List = props =>
@@ -9,6 +10,7 @@ const List = props =>
       <td>{props.value.name}</td>
       <td> <a href={'mailto:' + props.value.email} target="blank"> {props.value.email} </a> </td>
       <td>{props.value.phone}</td>
+      <td> <Link to={"/view-profile" + props.value.id}>View Profile</Link> </td>
     </tr>
   )
 
@@ -21,6 +23,10 @@ export default class App extends Component {
     }
   }
 
+  onEditCustomer() {
+    console.log('custId')
+  }
+
   componentDidMount() {
     axios.get('https://jsonplaceholder.typicode.com/users')
       .then(res => this.setState({ userList: res.data }))
@@ -29,7 +35,12 @@ export default class App extends Component {
 
   UserList = () => {
     return this.state.userList.map((item, i) => {
-      return <List value={item} key={i} />
+      return (
+        <div>
+          <List value={item} key={i} />
+        </div>
+      )
+
     })
   }
 
@@ -47,6 +58,7 @@ export default class App extends Component {
               <th scope="col">Name</th>
               <th scope="col">Email</th>
               <th scope="col">Phone</th>
+              <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
