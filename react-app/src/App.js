@@ -1,75 +1,28 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import axios from 'axios'
-import { Link } from 'react-router-dom';
-import swal from 'sweetalert';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-const List = props =>
-  (
-    <tr>
-      <td>{props.value.name}</td>
-      <td> <a href={'mailto:' + props.value.email} target="blank"> {props.value.email} </a> </td>
-      <td>{props.value.phone}</td>
-      <td> <Link to={"/view-profile" + props.value.id}>View Profile</Link> </td>
-    </tr>
-  )
+import ViewProfile from './components/ViewProfile'
+import UserList from './components/UserList'
 
-export default class App extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      userList: []
-    }
-  }
-
-  onEditCustomer() {
-    console.log('custId')
-  }
-
-  componentDidMount() {
-    axios.get('https://jsonplaceholder.typicode.com/users')
-      .then(res => this.setState({ userList: res.data }))
-      .catch(err => swal("Opps!", err.message, "error"))
-  }
-
-  UserList = () => {
-    return this.state.userList.map((item, i) => {
-      return (
-        <div>
-          <List value={item} key={i} />
-        </div>
-      )
-
-    })
-  }
+class App extends Component {
 
   render() {
-    return (
-      <div className="container">
-        <nav className="navbar navbar-dark bg-dark">
-          <a className="navbar-brand">
-            <span style={{ fontWeight: '800' }}>USERLIST With REACT JS</span>
-          </a>
-        </nav>
-        <table className="table mt-5">
-          <thead className="thead-dark">
-            <tr>
-              <th scope="col">Name</th>
-              <th scope="col">Email</th>
-              <th scope="col">Phone</th>
-              <th scope="col">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              this.UserList()
-            }
-          </tbody>
-        </table>
 
-      </div>
+    return (
+      <Router>
+        <div className="container">
+          <nav className="navbar navbar-dark bg-dark">
+            <a className="navbar-brand" href="/">
+              <span style={{ fontWeight: '800' }}>USERLIST With REACT JS</span>
+            </a>
+          </nav>
+          <Route path="/" exact component={UserList} />
+          <Route path="/view-profile/:id" component={ViewProfile} />
+        </div>
+      </Router>
     );
   }
 }
 
+export default App
